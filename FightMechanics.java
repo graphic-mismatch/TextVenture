@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class FightMechanics {
   public static void initBattle(String title) {
-    interpret(title);
+    statCalc(interpret(title));
   }
   public static String[] interpret(String specs) {
     String cha = specs.substring(0, 9);

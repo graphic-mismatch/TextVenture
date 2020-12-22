@@ -7,9 +7,10 @@ public class Main extends Game
 
     System.out.println("==============================================================\n");
     Scanner get = new Scanner(System.in);
-    Game.slowType(Game.spawnMonster(), 100); 
     System.out.println("Press Enter to Continue:");
     get.nextLine();
+    System.out.println("Select Difficulty:\n->(E)asy\n->(M)edium\n->(H)ard");
+    char opt = Character.toUpperCase(get.nextChar());
     Game.cls();
     
   }

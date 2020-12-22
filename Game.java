@@ -10,7 +10,7 @@ public class Game extends FightMechanics {
     static String inventory = "";
     final static String[][] itemDictionary =
     { 
-       {"Apple(u)","Bananna(u)","MRE(2u)","Axe(un)","Sword(un)","Shield(un)","Armor(un)","Amulet(un)","Potion(u)","Book(u)","Painkillers(3u)","First-Aid Kit(3u)","Katana(un)","Ring(un)","Lucky-coin(u)","Lockpicks(7u)","Key(u)","Helmet(un)","Dagger(un)","Skateboard(un)","Folding Bicycle(un)","Pen(un)","Care-Package(u)","Cake(4u)","Bed(un)","Milk(u)","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""},
+       {"Apple(u)","Banana(u)","MRE(2u)","Axe(un)","Sword(un)","Shield(un)","Armor(un)","Amulet(un)","Potion(u)","Book(u)","Painkillers(3u)","First-Aid Kit(3u)","Katana(un)","Ring(un)","Lucky-coin(u)","Lockpicks(7u)","Key(u)","Helmet(un)","Dagger(un)","Skateboard(un)","Folding Bicycle(un)","Pen(un)","Care-Package(u)","Cake(4u)","Bed(un)","Milk(u)"},
       {
       "Recovers 10hp.",
       "Recovers 5hp.",
@@ -36,9 +36,9 @@ public class Game extends FightMechanics {
       "Gives a random healing item, some coins, and some exp. May give a lucky coin." ,
       "Heals 30hp. Can be used four times.",
       "Increases speed and evasion temporarily. Has a cool-down of 100 walk-cycles. Effects last for 25 turns.",
-      "Removes all temporary negative stat changes.",
-      "","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""}, 
-      {"Apple(u)","Bananna(u)","MRE(2u)","Axe(un)","Sword(un)","Shield(un)","Armor(un)","Amulet(un)","Potion(u)","Book(u)","Painkillers(3u)","First-Aid Kit(3u)","Katana(un)","Ring(un)","Lucky-coin(u)","Lockpicks(7u)","Key(u)","Helmet(un)","Dagger(un)","Skateboard(un)","Folding Bicycle(un)","Pen(un)","Care-Package(u)","Cake(4u)","Bed(un)","Milk(u)","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""}
+      "Removes all temporary negative stat changes."
+      }, 
+      {"Apple(u)","Bananna(u)","MRE(2u)","Axe(un)","Sword(un)","Shield(un)","Armor(un)","Amulet(un)","Potion(u)","Book(u)","Painkillers(3u)","First-Aid Kit(3u)","Katana(un)","Ring(un)","Lucky-coin(u)","Lockpicks(7u)","Key(u)","Helmet(un)","Dagger(un)","Skateboard(un)","Folding Bicycle(un)","Pen(un)","Care-Package(u)","Cake(4u)","Bed(un)","Milk(u)"}
     };
     //current health, exp, maxhealth, charisma, atk, def, wisdom, intelligence, speed, evasion
 
@@ -230,7 +230,6 @@ public class Game extends FightMechanics {
     }
 
     public static void rRoulette(String nam, String opp){
-        Scanner in = new Scanner(System.in);
         int ch = rand.nextInt(6) + 1;
         System.out.println("Welcome to the Russian Roulette Minigame!");
         System.out.println("The game will start in:");
