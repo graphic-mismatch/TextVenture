@@ -12,10 +12,10 @@ public class Main extends Game
     get.nextLine();
     System.out.println("Select Difficulty:\n->(E)asy\n->(M)edium\n->(H)ard\n\n\n\nWrong input will start a Hard Game.");
     char opt = Character.toUpperCase(get.next().charAt(0));
-    get.close();
     Game nothang = new Game(opt);
     nothang.cls();    
     nothang.main();
+    get.close();
   }
 }
 

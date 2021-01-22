@@ -2,6 +2,7 @@ import java.util.Scanner;
 import java.util.Random;
 public class FightMechanics {
     public static Scanner get =  new Scanner(System.in);
+    static Random rand = new Random();
     public static void initBattle(String title) {
         fight(statCalc(interpret(title)));
     }
@@ -185,6 +186,38 @@ public class FightMechanics {
         }
         // if ()
         return stats;
+    }
+
+    public static void rRoulette(String nam, String opp) {
+        int ch = rand.nextInt(6) + 1;
+        System.out.println("Welcome to the Russian Roulette Minigame!");
+        System.out.println("The game will start in:");
+        for (int i = 3; i >= 1; i--) {
+            Game.delay(1000);
+            System.out.println(i);
+        }
+        System.out.println("The bullet is in the chamber and it is spun.");
+        Game.delay(2000);
+        String name;
+        for (int i = 1; i <= ch; i++) {
+            if (i % 2 == 0)
+                name = nam;
+            else
+                name = opp;
+            System.out.println(name + " picks up the gun, and slowly pulls the trigger...");
+            Game.delay(4000);
+            if (i == ch) {
+                System.out.println("BANG!!");
+                Game.delay(2000);
+                System.out.println(name + " died.");
+                break;
+            } else {
+                System.out.println("CLICK!!");
+                Game.delay(1000);
+                System.out.println(name + " puts the gun on the table...");
+            }
+            Game.delay(1000);
+        }
     }
 
     static int Next(int i, int j) {
