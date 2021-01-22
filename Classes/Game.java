@@ -46,7 +46,7 @@ public class Game extends FightMechanics {
 
   public Game() {}
 
-  public Game(char dif) {
+  public Game(char dif){
     if (dif == 'E') {
       stats[0] = 1;
       stats[1] = 0;
@@ -83,7 +83,6 @@ public class Game extends FightMechanics {
       stats[8] = 15;
       stats[9] = 5;
     }
-
   }
 
   public static void main() throws IOException {
