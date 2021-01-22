@@ -1,10 +1,11 @@
 import java.util.Scanner;
+import java.util.Random;
 public class FightMechanics {
-  public static Scanner get =  new Scanner(System.in);
+    public static Scanner get =  new Scanner(System.in);
     public static void initBattle(String title) {
         fight(statCalc(interpret(title)));
     }
-    
+
     public static String[] interpret(String specs) {
         String cha = specs.substring(0, 9);
         String typ = specs.substring(9, 19);
@@ -12,13 +13,18 @@ public class FightMechanics {
         String[] datpack = { cha, typ, lvl };
         return datpack;
     }
-    
+
     public static boolean fight(int[] data)
     {
-      int[] stats = data;
-      System.out.println("Select Action: \n1.Attack\n2.Charm\n3.Settle It Like Those Bruhssians\n4.Yeet Yourself Out Of Battle");
-      String opt = get.nextLine();
-      return true;
+        int[] stats = data;
+        System.out.println("Select Action: \n1.Attack\n2.Charm\n3.Settle It Like Those Bruhssians\n4.Yeet Yourself Out Of Battle");
+        String opt = get.nextLine();
+        switch(opt)
+        {
+            case "1":
+
+        }
+        return true;
     }
 
     public static int[] statCalc(String[] data) {
@@ -55,7 +61,7 @@ public class FightMechanics {
                 System.out.println("I vill suk thine blood!");
             }
             else{
-                System.out.println("U arent a vampire," + (Next(1,100)%2 == 0?" Alex.":"Bot."));
+                System.out.println("U arent a vampire," + (Next(1,100)%2 == 0?" reference nobody will see 1":"reference nobody will understand 2"));
             }
             stats[0] = 20 + (int) Math.round(Integer.parseInt(data[2]) * (Math.round((Math.random() * 5) + 1)) / 2);
             stats[1] = 0;
@@ -123,7 +129,7 @@ public class FightMechanics {
             stats[7] = (int)(Math.round((Math.random()*80)+(Integer.parseInt(data[2])*0.1)));
         } 
         else if (data[1].equals("Dwarf#####")) {
-            System.out.println("I got nothing, sry.");
+            System.out.println("Nom Nom\nSnom is\nThe best Pokemon");
             stats[0] = 9 + (int) Math.round(Integer.parseInt(data[2]) * (Math.round((Math.random() * 5) + 1)) / 2);
             stats[1] = 0;
             stats[2] = Next(0,100);
@@ -183,5 +189,51 @@ public class FightMechanics {
 
     static int Next(int i, int j) {
         return (int) (Math.random() * j) + i;
+    }
+
+    public static long optGen(int n)
+    {
+        String binrep = "";
+        boolean last = n%2 == 0;
+        while(true)
+        {
+            if(n == 0 && last)
+            {
+                binrep += "0";
+                break;
+            }
+
+            binrep += Integer.toString(n%2);
+            if (n==0)
+            {
+                break;
+            }
+            n = n>>1;
+        }
+        binrep = rev(binrep);
+        return Long.parseLong(binrep);
+    }
+
+    public static int OVkRand() {
+        Random random = new Random();
+        int seed1 = Integer.parseInt((""+System.currentTimeMillis()).substring(9)); //seed
+        int seed2 = Integer.parseInt((""+System.nanoTime()).substring(11));  //seed
+        long seedMain = Math.abs((seed1*seed2)-(seed1)-0x5F3);  //wtf
+        seedMain = seedMain>>10;   //fast reduction
+        seedMain = Math.abs(Integer.parseInt((""+seedMain).substring((""+seedMain).length()-2))); //random bs
+        int x = random.nextInt(Math.abs(seed2-seed1))+seed1;
+        seedMain = seedMain>>10;  //fast reduction
+        x = x>>5;  //fast reduction
+        return random.nextInt(x-Math.abs((int)seedMain))+Math.abs((int)seedMain);
+    }
+
+    public static String rev(String s)
+    {
+        String t = "";
+        for (int i =  s.length()-1; i>=0; i--)
+        {
+            t += ""+s.charAt(i);
+        }
+        return t;
     }
 }
