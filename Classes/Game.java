@@ -1,7 +1,6 @@
 import java.util.Scanner;
 import java.io.IOException;
 import java.util.Random;
-
 public class Game extends FightMechanics {
     static String choice = "";
     static int[] stats = { 1, 0, 20, 10, 15, 10, 5, 20, 25, 10 };
@@ -11,39 +10,13 @@ public class Game extends FightMechanics {
     // maxhealth, charisma, atk, def, wisdom, intelligence, speed, evasion
     static String inventory = "";
     final static String[][] itemDictionary = {
-            { "Apple(u)", "Banana(u)", "MRE(2u)", "Axe(un)", "Sword(un)", "Shield(un)", "Armor(un)", "Amulet(un)",
-                "Potion(u)", "Book(u)", "Painkillers(3u)", "First-Aid Kit(3u)", "Katana(un)", "Ring(un)", "Lucky-coin(u)",
-                "Lockpicks(7u)", "Key(u)", "Helmet(un)", "Dagger(un)", "Skateboard(un)", "Folding Bicycle(un)", "Pen(un)",
-                "Care-Package(u)", "Cake(4u)", "Bed(un)", "Milk(u)" },
-            { "Recovers 10hp.", "Recovers 5hp.", "Recovers 30hp. Can be used twice.",
-                "Weapon. Effect depends on weapon level and type.", "Weapon. Effect depends on weapon level and type.",
-                "Shield. Effect depends on item level and type.", "Armor. Effect depends on item level and type.",
-                "Magical Amulet. Effect depends on item level and type. Can either curse or bless you.", "Random effect.",
-                "Heightens both Intelligence and Wisdom.", "Recovers 70hp. Can be used thrice.",
-                "Recovers all hp, regardless of current hp. Can be used thrice. Can be sold for insane amounts of money.",
-                "Weapon. Effect depends on weapon level and type.",
-                "Magical Ring. Effect depends on item level and type. Can either curse or bless you.",
-                "Gives you a random amount of exp. A maximum of 100,000 exp points can be gained.",
-                "Universal Keys. Can be used on any door. Small chance of encounter. Can be used 7 times.",
-                "Can be used to open a door.", "Armor. Effect depends on item level and type.",
-                "Weapon. Effect depends on weapon level and type.", "Increases speed greatly. (Equipable)",
-                "Increases speed greatly. (Equipable)",
-                "Weapon. Once picked up, it would gain an atk boost equivalent to twice that of the strongest sword in your inventory. It would gain the type of the weapon currently equipped. If no sword has been picked up, the pen will not provide any benefit. Once the pen's atk boost and characteristics have been set, they cannot be changed. Cannot be leveled up.",
-                "Gives a random healing item, some coins, and some exp. May give a lucky coin.",
-                "Heals 30hp. Can be used four times.",
-                "Increases speed and evasion temporarily. Has a cool-down of 100 walk-cycles. Effects last for 25 turns.",
-                "Removes all temporary negative stat changes." },
-            { "Apple(u)", "Bananna(u)", "MRE(2u)", "Axe(un)", "Sword(un)", "Shield(un)", "Armor(un)", "Amulet(un)",
-                "Potion(u)", "Book(u)", "Painkillers(3u)", "First-Aid Kit(3u)", "Katana(un)", "Ring(un)", "Lucky-coin(u)",
-                "Lockpicks(7u)", "Key(u)", "Helmet(un)", "Dagger(un)", "Skateboard(un)", "Folding Bicycle(un)", "Pen(un)",
-                "Care-Package(u)", "Cake(4u)", "Bed(un)", "Milk(u)" } };
+            { "Apple(u)","Banana(u)","MRE(2u)","Axe(un)","Sword(un)","Shield(un)","Armor(un)","Amulet(un)","Potion(u)","Book(u)","Painkillers(3u)","First-Aid Kit(3u)","Katana(un)","Ring(un)","Lucky-coin(u)","Lockpicks(7u)","Key(u)","Helmet(un)","Dagger(un)","Skateboard(un)","Folding Bicycle(un)","Pen(un)","Care-Package(u)","Cake(4u)","Bed(un)","Milk(u)" },{ "Recovers 10hp.","Recovers 5hp.","Recovers 30hp. Can be used twice.","Weapon. Effect depends on weapon level and type.","Weapon. Effect depends on weapon level and type.","Shield. Effect depends on item level and type.", "Armor. Effect depends on item level and type.","Magical Amulet. Effect depends on item level and type. Can either curse or bless you.","Random effect.","Heightens both Intelligence and Wisdom.", "Recovers 70hp. Can be used thrice.","Recovers all hp, regardless of current hp. Can be used thrice. Can be sold for insane amounts of money.","Weapon. Effect depends on weapon level and type.","Magical Ring. Effect depends on item level and type. Can either curse or bless you.","Gives you a random amount of exp. A maximum of 100,000 exp points can be gained.","Universal Keys. Can be used on any door. Small chance of encounter. Can be used 7 times.","Can be used to open a door.", "Armor. Effect depends on item level and type.","Weapon. Effect depends on weapon level and type.","Increases speed greatly. (Equipable)","Increases speed greatly. (Equipable)","Weapon. Once picked up, it would gain an atk boost equivalent to twice that of the strongest sword in your inventory. It would gain the type of the weapon currently equipped. If no sword has been picked up, the pen will not provide any benefit. Once the pen's atk boost and characteristics have been set, they cannot be changed. Cannot be leveled up.","Gives a random healing item, some coins, and some exp. May give a lucky coin.","Heals 30hp. Can be used four times.","Increases speed and evasion temporarily. Has a cool-down of 100 walk-cycles. Effects last for 25 turns.","Removes all temporary negative stat changes." },{"Apple(u)","Bananna(u)","MRE(2u)","Axe(un)","Sword(un)","Shield(un)","Armor(un)","Amulet(un)","Potion(u)","Book(u)","Painkillers(3u)","First-Aid Kit(3u)","Katana(un)","Ring(un)","Lucky-coin(u)","Lockpicks(7u)","Key(u)","Helmet(un)","Dagger(un)","Skateboard(un)","Folding Bicycle(un)","Pen(un)","Care-Package(u)","Cake(4u)","Bed(un)","Milk(u)"} };
 
     static String equipped = "";
     static boolean dead = false;
     static Scanner get = new Scanner(System.in);
     static double health;
     static Random rand = new Random();
-
     public Game() {}
 
     public Game(char dif){
@@ -90,7 +63,7 @@ public class Game extends FightMechanics {
             String opt = "";
             System.out.println("Stats: ");
             System.out.println("Health: " + health + "/" + stats[2]);
-            System.out.println("Menu: \n1. Walk\n2. Inventory \n3. Save Game \n4. Options \n5. Credits \n6. Die");
+            System.out.println("Menu: \n1. Walk\n2. Inventory \n3. Options \n4. Credits \n5. Die");
             System.out.println("IMPORTANT: Please only enter the option number or else your game would likely crash.");
             choice = get.next();
             switch (choice) {
@@ -98,7 +71,7 @@ public class Game extends FightMechanics {
                 System.out.println("Seriously?");
                 break;
                 case "1":
-                System.out.println("You Walk");
+                System.out.println("You Walk\n\n");
                 eventHandler(1, 30);
                 eventHandler(2, 20);
                 break;
@@ -111,21 +84,16 @@ public class Game extends FightMechanics {
                     case "1":
                     System.out.print("What item do you wish to use?");
                     opt = get.nextLine();
-
                 }
                 arrayDisplay(true, inventoryToArray(inventory));
                 break;
                 case "3":
-                System.out.println("Saved!");
-                SaveAndEncrypt.writeData("Test");
-                break;
-                case "4":
                 System.out.println("Options are currently not available");
                 break;
-                case "5":
+                case "4":
                 System.out.println("Credits:");
                 break;
-                case "6":
+                case "5":
                 System.out.println("U ded");
                 dead = true;
                 break;
@@ -141,7 +109,6 @@ public class Game extends FightMechanics {
             get.nextLine();
             cls();
         }
-
     }
 
     public static String[] inventoryToArray(String s) {
@@ -167,7 +134,6 @@ public class Game extends FightMechanics {
             }
             return ar;
         }
-
         else {
             String[] ar = { "" };
             return ar;
