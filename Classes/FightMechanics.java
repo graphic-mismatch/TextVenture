@@ -3,8 +3,9 @@ import java.util.Random;
 public class FightMechanics {
     public static Scanner get =  new Scanner(System.in);
     static Random rand = new Random();
-    public static void initBattle(String title) {
-        fight(title);
+
+    public static boolean initBattle(String title) {
+       return fight(title);
     }
 
     public static String[] interpret(String specs) {
@@ -17,6 +18,9 @@ public class FightMechanics {
 
     public static boolean fight(String title)
     {
+        boolean cont = true;
+        while(cont)
+        {
         Game.cls();
         msgDisp(interpret(title));
         System.out.println("\n");
@@ -29,17 +33,44 @@ public class FightMechanics {
             if(attackHit())
             {
                 Game.slowType("The Attack Hits. The Monster is killed", 10);
+                cont = false;
             }
             else
             {
                 Game.slowType("The Attack Fails. The Monster Attacks You", 10);
+                if(Game.stats[9]+Game.statmods[7]<Next(100+Game.stats[9]+Game.statmods[7]))
+                {
+                Game.slowType("The Monster Hits", 10);
+                Game.health -= Math.ceil((Next(20.0) *Integer.parseInt(interpret(title)[2]))/Game.stats[5]-Next(1.2)+2) ;
+                Game.slowType("You now have "+Game.health+"hp left.",10);
+                }
+                else
+                {
+                Game.slowType("The Monster Misses", 10);
+                }
+                
             }
             break;
 
             case "2":
-            if(10+)
+            if(10+1==0)
+            {
+
+            }
 
         }
+        if(Game.health <= 0)
+        {
+          cont = false;
+          return false;
+        }
+        System.out.println("Press Enter to Continue:");
+        get.nextLine();
+        get.nextLine();
+        }
+        int xpgain = (int)Math.ceil(Math.abs(Next(0,5)*Integer.parseInt(interpret(title)[2])-(Game.stats[0]*Next(2.7))))+2;
+        Game.slowType("You gained "+ xpgain +"xp!",10);
+        Game.stats[1]+=xpgain;
         return true;
     }
 
@@ -186,7 +217,9 @@ public class FightMechanics {
     static int Next(int i, int j) {
         return (int) (Math.random() * j) + i;
     }
-
+   static double Next(double j) {
+        return (rand.nextDouble() * j);
+    }
     public static String optGen(int n)
     {
         String binrep = "";
@@ -217,8 +250,8 @@ public class FightMechanics {
 
     public static int OVkRand() {
         Random random = new Random();
-        int seed1 = Integer.parseInt((""+System.currentTimeMillis()).substring(9)); //seed
-        int seed2 = Integer.parseInt((""+System.nanoTime()).substring(11));  //seed
+        int seed1 = Integer.parseInt((""+System.currentTimeMillis()).substring((""+System.currentTimeMillis()).length() - 3)); //seed
+        int seed2 = Integer.parseInt((""+System.nanoTime()).substring((""+System.nanoTime()).length()-4));  //seed
         long seedMain = Math.abs((seed1*seed2)-(seed1)-0x5F3);  //wtf
         seedMain = seedMain>>10;   //fast reduction
         seedMain = Math.abs(Integer.parseInt((""+seedMain).substring( Math.abs((""+seedMain).length()-2)))); //random bs

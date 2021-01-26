@@ -10,7 +10,7 @@ public class Game extends FightMechanics {
     // maxhealth, charisma, atk, def, wisdom, intelligence, speed, evasion
     static String inventory = "";
     final static String[][] itemDictionary = {
-            { "Apple(u)","Banana(u)","MRE(2u)","Axe(un)","Sword(un)","Shield(un)","Armor(un)","Amulet(un)","Potion(u)","Book(u)","Painkillers(3u)","First-Aid Kit(3u)","Katana(un)","Ring(un)","Lucky-coin(u)","Lockpicks(7u)","Key(u)","Helmet(un)","Dagger(un)","Skateboard(un)","Folding Bicycle(un)","Pen(un)","Care-Package(u)","Cake(4u)","Bed(un)","Milk(u)" },{ "Recovers 10hp.","Recovers 5hp.","Recovers 30hp. Can be used twice.","Weapon. Effect depends on weapon level and type.","Weapon. Effect depends on weapon level and type.","Shield. Effect depends on item level and type.", "Armor. Effect depends on item level and type.","Magical Amulet. Effect depends on item level and type. Can either curse or bless you.","Random effect.","Heightens both Intelligence and Wisdom.", "Recovers 70hp. Can be used thrice.","Recovers all hp, regardless of current hp. Can be used thrice. Can be sold for insane amounts of money.","Weapon. Effect depends on weapon level and type.","Magical Ring. Effect depends on item level and type. Can either curse or bless you.","Gives you a random amount of exp. A maximum of 100,000 exp points can be gained.","Universal Keys. Can be used on any door. Small chance of encounter. Can be used 7 times.","Can be used to open a door.", "Armor. Effect depends on item level and type.","Weapon. Effect depends on weapon level and type.","Increases speed greatly. (Equipable)","Increases speed greatly. (Equipable)","Weapon. Once picked up, it would gain an atk boost equivalent to twice that of the strongest sword in your inventory. It would gain the type of the weapon currently equipped. If no sword has been picked up, the pen will not provide any benefit. Once the pen's atk boost and characteristics have been set, they cannot be changed. Cannot be leveled up.","Gives a random healing item, some coins, and some exp. May give a lucky coin.","Heals 30hp. Can be used four times.","Increases speed and evasion temporarily. Has a cool-down of 100 walk-cycles. Effects last for 25 turns.","Removes all temporary negative stat changes." },{"Apple(u)","Bananna(u)","MRE(2u)","Axe(un)","Sword(un)","Shield(un)","Armor(un)","Amulet(un)","Potion(u)","Book(u)","Painkillers(3u)","First-Aid Kit(3u)","Katana(un)","Ring(un)","Lucky-coin(u)","Lockpicks(7u)","Key(u)","Helmet(un)","Dagger(un)","Skateboard(un)","Folding Bicycle(un)","Pen(un)","Care-Package(u)","Cake(4u)","Bed(un)","Milk(u)"} };
+            { "Apple(u)","Banana(u)","MRE(2u)","Axe(un)","Shield(un)","Armor(un)","Amulet(un)","Potion(u)","Book(u)","Painkillers(3u)","First-Aid Kit(3u)","Ring(un)","Lucky-coin(u)","Lockpicks(7u)","Key(u)","Helmet(un)","Skateboard(un)","Folding Bicycle(un)","Care-Package(u)","Cake(4u)","Bed(un)","Milk(u)" },{ "Recovers 10hp.","Recovers 5hp.","Recovers 30hp. Can be used twice.","Shield. Effect depends on item level and type.", "Armor. Effect depends on item level and type.","Magical Amulet. Effect depends on item level and type. Can either curse or bless you.","Random effect.","Heightens both Intelligence and Wisdom.", "Recovers 70hp. Can be used thrice.","Recovers all hp, regardless of current hp. Can be used thrice. Can be sold for insane amounts of money.","Magical Ring. Effect depends on item level and type. Can either curse or bless you.","Gives you a random amount of exp. A maximum of 100,000 exp points can be gained.","Universal Keys. Can be used on any door. Small chance of encounter. Can be used 7 times.","Can be used to open a door.", "Armor. Effect depends on item level and type.","Increases speed greatly. (Equipable)","Increases speed greatly. (Equipable)","Gives a random healing item, some coins, and some exp. May give a lucky coin.","Heals 30hp. Can be used four times.","Increases speed and evasion temporarily. Has a cool-down of 100 walk-cycles. Effects last for 25 turns.","Removes all temporary negative stat changes." },{"Apple(u)","Bananna(u)","MRE(2u)","Axe(un)","Sword(un)","Shield(un)","Armor(un)","Amulet(un)","Potion(u)","Book(u)","Painkillers(3u)","First-Aid Kit(3u)","Katana(un)","Ring(un)","Lucky-coin(u)","Lockpicks(7u)","Key(u)","Helmet(un)","Dagger(un)","Skateboard(un)","Folding Bicycle(un)","Pen(un)","Care-Package(u)","Cake(4u)","Bed(un)","Milk(u)"} };
 
     static String equipped = "";
     static boolean dead = false;
@@ -31,6 +31,7 @@ public class Game extends FightMechanics {
             stats[7] = 25;
             stats[8] = 20;
             stats[9] = 15;
+            health = stats[2];
         }
         else if(dif == 'M'){
             stats[0] = 1;
@@ -43,6 +44,7 @@ public class Game extends FightMechanics {
             stats[7] = 15;
             stats[8] = 15;
             stats[9] = 10;
+            health = stats[2];
         }
         else{
             stats[0] = 1;
@@ -55,11 +57,27 @@ public class Game extends FightMechanics {
             stats[7] = 10;
             stats[8] = 15;
             stats[9] = 5;
+            health = stats[2];
         }
     }
 
     public static void main() throws IOException {
         while (true) {
+            if(stats[1]>= stats[0]*7.5)
+            {
+              slowType("Goddamn, do you have no life? Anyways, you leveled up to → lv."+(stats[0]+1)+"!\n\nTip: Level ups are still the best way to gain stats(because the developer was too lazy to add another way)!\n\n\n",10);
+              int temp = (int)Math.rint((stats[0]*7.5)-stats[1]);
+              stats[0]++;
+              stats[1] = temp;
+              stats[2] += (int)Math.rint(Math.ceil(rand.nextInt(5)+((Math.random()+1)*stats[0])));
+              stats[3] += (int)Math.rint(Math.ceil(rand.nextInt(3)+((Math.random()+1)*stats[0])));
+              stats[4] += (int)Math.rint(Math.ceil(rand.nextInt(2)+((Math.random()+1)*stats[0])));
+              stats[5] += (int)Math.rint(Math.ceil(rand.nextInt(5)+((Math.random()+1)*stats[0])));
+              stats[6] += (int)Math.rint(Math.ceil(rand.nextInt(6)+((Math.random()+1)*stats[0])));
+              stats[7] += (int)Math.rint(Math.ceil(rand.nextInt(2)+((Math.random()+1)*stats[0])));
+              stats[8] += (int)Math.rint(Math.ceil(((Math.random()+1)*stats[0])));
+              stats[9] += (int)Math.rint(Math.ceil(rand.nextInt(7)+((Math.random()+1)*stats[0]))); 
+            }
             String opt = "";
             System.out.println("Stats: ");
             System.out.println("Health: " + health + "/" + stats[2]);
@@ -180,7 +198,10 @@ public class Game extends FightMechanics {
         switch (eno) {
             case 1:
             if (rand.nextInt(100) >= pro) {
-                FightMechanics.initBattle(spawnMonster());
+                if(!FightMechanics.initBattle(spawnMonster()))
+                {
+                  dead = true;
+                }
             }
 
         }
