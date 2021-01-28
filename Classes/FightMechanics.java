@@ -38,24 +38,21 @@ public class FightMechanics {
             else
             {
                 Game.slowType("The Attack Fails. The Monster Attacks You", 10);
-                if(Game.stats[9]+Game.statmods[7]<Next(100+Game.stats[9]+Game.statmods[7]))
-                {
-                Game.slowType("The Monster Hits", 10);
-                Game.health -= Math.ceil((Next(20.0) *Integer.parseInt(interpret(title)[2]))/Game.stats[5]-Next(1.2)+2) ;
-                Game.slowType("You now have "+Game.health+"hp left.",10);
-                }
-                else
-                {
-                Game.slowType("The Monster Misses", 10);
-                }
+                monAtk(title);
                 
             }
             break;
 
             case "2":
-            if(10+1==0)
+            if(Next(0, Game.stats[3]+Next(0, 20)-5)>Next(100.0+Game.stats[3]))
             {
-
+              cont = false;
+              Game.slowType("You successfully charm the Monster. It lets you go.", 10);
+            }
+            else
+            {
+              Game.slowType("You fail to charm the Monster. It Attacks you.", 10);
+              monAtk(title);
             }
 
         }
@@ -66,12 +63,25 @@ public class FightMechanics {
         }
         System.out.println("Press Enter to Continue:");
         get.nextLine();
-        get.nextLine();
         }
         int xpgain = (int)Math.ceil(Math.abs(Next(0,5)*Integer.parseInt(interpret(title)[2])-(Game.stats[0]*Next(2.7))))+2;
         Game.slowType("You gained "+ xpgain +"xp!",10);
         Game.stats[1]+=xpgain;
         return true;
+    }
+
+    public static void monAtk(String title)
+    {
+      if(Game.stats[9]+Game.statmods[7]<Next(100+Game.stats[9]+Game.statmods[7]))
+                {
+                Game.slowType("The Monster Hits", 10);
+                Game.health -= Math.ceil((Next(20.0) *Integer.parseInt(interpret(title)[2]))/Game.stats[5]-Next(1.2)+2) ;
+                Game.slowType("You now have "+Game.health+"hp left.",10);
+                }
+                else
+                {
+                Game.slowType("The Monster Misses", 10);
+                }
     }
 
     public static boolean attackHit()
@@ -88,7 +98,7 @@ public class FightMechanics {
             int correct = (OVkRand()%2==0)?correct1:correct2;
             String cor = (correct == a)?"a":(correct == b)?"b":(correct == c)?"c":"d";
             System.out.println("ATTACK\nWhich of the following is the correct binary representation for "+correct+"?\nA) "+optGen(a)+"\nB) "+optGen(b)+"\nC) "+optGen(c)+"\nD) "+optGen(d));
-            String opt = get.next();
+            String opt = get.nextLine();
             return (opt.equalsIgnoreCase(cor));
         }
         else
@@ -106,7 +116,7 @@ public class FightMechanics {
             int correct = (OVkRand()%2==0)?correct1:correct2;
             String cor = (correct == a)?"a":(correct == b)?"b":(correct == c)?"c":"d";
             System.out.println("ATTACK\nWhich of the following is the correct answer  for (both terms are in binary) \""+((correct == a)?optGen(as)+"+"+optGen(cs):(correct == b)?optGen(bs)+"+"+optGen(as):(correct == c)?optGen(ds)+"+"+optGen(bs):optGen(cs)+"+"+optGen(ds)) + "\"?\nA) "+a+"\nB) "+b+"\nC) "+c+"\nD) "+d);
-            String opt = get.next();
+            String opt = get.nextLine();
             return (opt.equalsIgnoreCase(cor));
         }
 
