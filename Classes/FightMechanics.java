@@ -5,7 +5,7 @@ public class FightMechanics {
     static Random rand = new Random();
 
     public static boolean initBattle(String title) {
-       return fight(title);
+        return fight(title);
     }
 
     public static String[] interpret(String specs) {
@@ -21,48 +21,87 @@ public class FightMechanics {
         boolean cont = true;
         while(cont)
         {
-        Game.cls();
-        msgDisp(interpret(title));
-        System.out.println("\n");
-        System.out.println("Select Action: \n1.Attack\n2.Charm\n3.Settle It Like Those Bruhssians\n4.Yeet Yourself Out Of Battle");
-        String opt = get.nextLine();
-        System.out.println("\n\n\n\n\n\n");
-        switch(opt)
-        {
-            case "1":
-            if(attackHit())
+            Game.cls();
+            msgDisp(interpret(title));
+            System.out.println("\n");
+            System.out.println("Select Action: \n1.Attack\n2.Charm\n3.Settle It Like Those Bruhssians\n4.Yeet Yourself Out Of Battle");
+            String opt = get.nextLine();
+            System.out.println("\n\n\n\n\n\n");
+            switch(opt)
             {
-                Game.slowType("The Attack Hits. The Monster is killed", 10);
+                case "1":
+                if(attackHit())
+                {
+                    Game.slowType("The Attack Hits. The Monster is killed", 10);
+                    cont = false;
+                }
+                else
+                {
+                    Game.slowType("The Attack Fails. The Monster Attacks You", 10);
+                    monAtk(title);
+
+                }
+                break;
+
+                case "2":
+                if(Next(0, Game.stats[3]+Next(0, 20)-5)>Next(100.0+Game.stats[3]))
+                {
+                    cont = false;
+                    Game.slowType("You successfully charm the Monster. It lets you go.", 10);
+                }
+                else
+                {
+                    Game.slowType("You fail to charm the Monster. It Attacks you.", 10);
+                    monAtk(title);
+                }
+                case "3":
+                Game.slowType("Are you sure you want to continue? (y/n)", 10);
+                opt = get.nextLine();
+                switch(opt)
+                {
+                    case "y":
+                    String n = "";
+                    for(int i = 0; i<interpret(title)[1].length();i++)
+                    {
+                        if(interpret(title)[1].charAt(i) == '#')
+                        {
+                            break;
+                        }
+                        n+= interpret(title)[1].charAt(i)+"";
+                    }
+                    cont = rRoulette(Game.user, "The Lv."+interpret(title)[2]+" "+n);  if(!cont)
+                    {
+                        Game.health = 0;
+                    }  
+                    break;
+                    case "n":
+                    Game.slowType("The Monster pities your indescision. It waits.", 10);
+                    break;
+                    default:
+                    Game.slowType("Dude, follow the instructions. :\\",10); 
+                }
+                break;
+                case "4":
+                if(Game.stats[8]>Next(100.0+Game.stats[3]))
+                {
+                    Game.slowType("You successfully escape the Monster.", 10);
+                    System.out.println("Press Enter to Continue:");
+                    get.nextLine();
+                    return true;
+                }
+                else
+                {
+                    Game.slowType("You fail to escape the Monster. It Attacks you.", 10);
+                    monAtk(title);
+                }
+            }
+            if(Game.health <= 0)
+            {
                 cont = false;
+                return false;
             }
-            else
-            {
-                Game.slowType("The Attack Fails. The Monster Attacks You", 10);
-                monAtk(title);
-                
-            }
-            break;
-
-            case "2":
-            if(Next(0, Game.stats[3]+Next(0, 20)-5)>Next(100.0+Game.stats[3]))
-            {
-              cont = false;
-              Game.slowType("You successfully charm the Monster. It lets you go.", 10);
-            }
-            else
-            {
-              Game.slowType("You fail to charm the Monster. It Attacks you.", 10);
-              monAtk(title);
-            }
-
-        }
-        if(Game.health <= 0)
-        {
-          cont = false;
-          return false;
-        }
-        System.out.println("Press Enter to Continue:");
-        get.nextLine();
+            System.out.println("Press Enter to Continue:");
+            get.nextLine();
         }
         int xpgain = (int)Math.ceil(Math.abs(Next(0,5)*Integer.parseInt(interpret(title)[2])-(Game.stats[0]*Next(2.7))))+2;
         Game.slowType("You gained "+ xpgain +"xp!",10);
@@ -72,16 +111,16 @@ public class FightMechanics {
 
     public static void monAtk(String title)
     {
-      if(Game.stats[9]+Game.statmods[7]<Next(100+Game.stats[9]+Game.statmods[7]))
-                {
-                Game.slowType("The Monster Hits", 10);
-                Game.health -= Math.ceil((Next(20.0) *Integer.parseInt(interpret(title)[2]))/Game.stats[5]-Next(1.2)+2) ;
-                Game.slowType("You now have "+Game.health+"hp left.",10);
-                }
-                else
-                {
-                Game.slowType("The Monster Misses", 10);
-                }
+        if(Game.stats[9]<Next(100+Game.stats[9]))
+        {
+            Game.slowType("The Monster Hits", 10);
+            Game.health -= Math.ceil((Next(20.0) *Integer.parseInt(interpret(title)[2]))/Game.stats[5]-Next(1.2)+2) ;
+            Game.slowType("You now have "+Game.health+"hp left.",10);
+        }
+        else
+        {
+            Game.slowType("The Monster Misses", 10);
+        }
     }
 
     public static boolean attackHit()
@@ -123,23 +162,23 @@ public class FightMechanics {
     }
 
     public static void msgDisp(String[] data) {
-        System.out.print("A Wild and ");
+        System.out.print("A ");
         for(int i = 0; i<data[0].length();i++)
         {
-          if(data[0].charAt(i) == '#')
-          {
-            break;
-          }
-          System.out.print(data[0].charAt(i));
+            if(data[0].charAt(i) == '#')
+            {
+                break;
+            }
+            System.out.print(data[0].charAt(i));
         }
         System.out.print(" Lv."+data[2]+" ");
         for(int i = 0; i<data[1].length();i++)
         {
-          if(data[1].charAt(i) == '#')
-          {
-            break;
-          }
-          System.out.print(data[1].charAt(i));
+            if(data[1].charAt(i) == '#')
+            {
+                break;
+            }
+            System.out.print(data[1].charAt(i));
         }
         System.out.println(" appears\n");
         System.out.print("\"");
@@ -192,44 +231,47 @@ public class FightMechanics {
         System.out.print("\"");
     }
 
-    public static void rRoulette(String nam, String opp) {
+    public static boolean rRoulette(String nam, String opp) {
         int ch = rand.nextInt(6) + 1;
-        System.out.println("Welcome to the Russian Roulette Minigame!");
-        System.out.println("The game will start in:");
+        System.out.println("BRUHSSIAN ROULETTE");
+        Game.slowType("The game will start in:",10);
         for (int i = 3; i >= 1; i--) {
             Game.delay(1000);
-            System.out.println(i);
+            Game.slowType(i+"",1);
         }
-        System.out.println("The bullet is in the chamber and it is spun.");
+        Game.slowType("The bullet is in the chamber and it is spun.",10);
         Game.delay(2000);
-        String name;
+        String name = "";
         for (int i = 1; i <= ch; i++) {
             if (i % 2 == 0)
                 name = nam;
             else
                 name = opp;
-            System.out.println(name + " picks up the gun, and slowly pulls the trigger...");
+            Game.slowType(name + " picks up the gun, and slowly pulls the trigger...",10);
             Game.delay(4000);
             if (i == ch) {
-                System.out.println("BANG!!");
+                Game.slowType("BANG!!",10);
                 Game.delay(2000);
-                System.out.println(name + " died.");
+                Game.slowType(name + " died.",10);
                 break;
             } else {
-                System.out.println("CLICK!!");
+                Game.slowType("CLICK!!",10);
                 Game.delay(1000);
-                System.out.println(name + " puts the gun on the table...");
+                Game.slowType(name + " puts the gun on the table...",10);
             }
             Game.delay(1000);
         }
+        return !(name == nam);
     }
 
     static int Next(int i, int j) {
         return (int) (Math.random() * j) + i;
     }
-   static double Next(double j) {
+
+    static double Next(double j) {
         return (rand.nextDouble() * j);
     }
+
     public static String optGen(int n)
     {
         String binrep = "";

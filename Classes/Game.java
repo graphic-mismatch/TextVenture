@@ -3,11 +3,10 @@ import java.io.IOException;
 import java.util.Random;
 public class Game extends FightMechanics {
     static String choice = "";
-    static int[] stats = { 1, 0, 20, 10, 15, 10, 5, 20, 25, 10 };
+    static String user = "";
+    static int[] stats = new int[10];
     // level, exp, maxhealth, charisma, atk, def, wisdom, intelligence, speed,
     // evasion
-    static int[] statmods = { 0, 0, 0, 0, 0, 0, 0, 0 };
-    // maxhealth, charisma, atk, def, wisdom, intelligence, speed, evasion
     static String inventory = "";
     final static String[][] itemDictionary = {
             { "Apple(u)","Banana(u)","MRE(2u)","Axe(un)","Shield(un)","Armor(un)","Amulet(un)","Potion(u)","Book(u)","Painkillers(3u)","First-Aid Kit(3u)","Ring(un)","Lucky-coin(u)","Lockpicks(7u)","Key(u)","Helmet(un)","Skateboard(un)","Folding Bicycle(un)","Care-Package(u)","Cake(4u)","Bed(un)","Milk(u)" },{ "Recovers 10hp.","Recovers 5hp.","Recovers 30hp. Can be used twice.","Shield. Effect depends on item level and type.", "Armor. Effect depends on item level and type.","Magical Amulet. Effect depends on item level and type. Can either curse or bless you.","Random effect.","Heightens both Intelligence and Wisdom.", "Recovers 70hp. Can be used thrice.","Recovers all hp, regardless of current hp. Can be used thrice. Can be sold for insane amounts of money.","Magical Ring. Effect depends on item level and type. Can either curse or bless you.","Gives you a random amount of exp. A maximum of 100,000 exp points can be gained.","Universal Keys. Can be used on any door. Small chance of encounter. Can be used 7 times.","Can be used to open a door.", "Armor. Effect depends on item level and type.","Increases speed greatly. (Equipable)","Increases speed greatly. (Equipable)","Gives a random healing item, some coins, and some exp. May give a lucky coin.","Heals 30hp. Can be used four times.","Increases speed and evasion temporarily. Has a cool-down of 100 walk-cycles. Effects last for 25 turns.","Removes all temporary negative stat changes." },{"Apple(u)","Bananna(u)","MRE(2u)","Axe(un)","Sword(un)","Shield(un)","Armor(un)","Amulet(un)","Potion(u)","Book(u)","Painkillers(3u)","First-Aid Kit(3u)","Katana(un)","Ring(un)","Lucky-coin(u)","Lockpicks(7u)","Key(u)","Helmet(un)","Dagger(un)","Skateboard(un)","Folding Bicycle(un)","Pen(un)","Care-Package(u)","Cake(4u)","Bed(un)","Milk(u)"} };
@@ -19,7 +18,8 @@ public class Game extends FightMechanics {
     static Random rand = new Random();
     public Game() {}
 
-    public Game(char dif){
+    public Game(char dif, String u){
+        user = u;
         if (dif == 'E') {
             stats[0] = 1;
             stats[1] = 0;
@@ -77,11 +77,12 @@ public class Game extends FightMechanics {
               stats[7] += (int)Math.rint(Math.ceil(rand.nextInt(2)+((Math.random()+1)*stats[0])));
               stats[8] += (int)Math.rint(Math.ceil(((Math.random()+1)*stats[0])));
               stats[9] += (int)Math.rint(Math.ceil(rand.nextInt(7)+((Math.random()+1)*stats[0]))); 
+              health = stats[2];
             }
             String opt = "";
             System.out.println("Stats: ");
             System.out.println("Health: " + health + "/" + stats[2]);
-            System.out.println("Menu: \n1. Walk\n2. Inventory \n3. Options \n4. Credits \n5. Die");
+            System.out.println("Menu: \n1. Walk\n2. Inventory \n3. Options \n4. Credits\n5. Stats \n6. Die");
             System.out.println("IMPORTANT: Please only enter the option number or else your game would likely crash.");
             choice = get.next();
             switch (choice) {
@@ -112,13 +113,14 @@ public class Game extends FightMechanics {
                 System.out.println("Credits:");
                 break;
                 case "5":
-                System.out.println("U ded");
-                dead = true;
                 break;
+                case "6":
+                dead = true;
                 default:
                 System.out.println("ig it would be better if u followed the rules");
             }
             if (dead == true) {
+                Game.slowType(user +" died.",20);
                 break;
             }
             choice = "";

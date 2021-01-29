@@ -11,8 +11,10 @@ public class Main extends Game
     System.out.println("Press Enter to Continue:");
     get.nextLine();
     System.out.println("Select Difficulty:\n->(E)asy\n->(M)edium\n->(H)ard\n\n\n\nWrong input will start a Hard Game.");
-    char opt = Character.toUpperCase(get.next().charAt(0));
-    Game nothang = new Game(opt);
+    char opt = Character.toUpperCase(get.nextLine().charAt(0));
+    Game.slowType("Enter Username:",10);
+    String u = get.nextLine();
+    Game nothang = new Game(opt,u);
     nothang.cls();    
     nothang.main();
     get.close();
