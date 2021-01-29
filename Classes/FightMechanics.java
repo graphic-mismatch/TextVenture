@@ -82,7 +82,7 @@ public class FightMechanics {
                 }
                 break;
                 case "4":
-                if(Game.stats[8]>Next(100.0+Game.stats[3]))
+                if(Game.stats[8]*Next(2)>Next(100.0+Game.stats[3]))
                 {
                     Game.slowType("You successfully escape the Monster.", 10);
                     System.out.println("Press Enter to Continue:");
