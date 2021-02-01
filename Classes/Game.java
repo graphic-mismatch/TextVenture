@@ -113,7 +113,7 @@ public class Game extends FightMechanics {
                 Game.slowType("Credits:",10);
                 break;
                 case "5":
-                Game.slowType("STATS:\n->Level: "+stats[0]+"\n->Exp: "+stats[1]+"/"+(stats[0]*7.5)+"\n->Max Health: "+stats[2]+"\nCharisma: "+stats[3]+"\nAttack: "+stats[4]+"\nDefense: "+stats[5]+"\nWisdom: "+stats[6]+"\nIntelligence: "+stats[7]+"\nSpeed: "+stats[8]+"\nEvasion: "+stats[9],5);    
+                Game.slowType("STATS:\n->Level: "+stats[0]+"\n->Exp: "+stats[1]+"/"+(stats[0]*7.5)+"\n->Max Health: "+stats[2]+"\n->Charisma: "+stats[3]+"\n->Attack: "+stats[4]+"\n->Defense: "+stats[5]+"\n->Wisdom: "+stats[6]+"\n->Intelligence: "+stats[7]+"\n->Speed: "+stats[8]+"\n->Evasion: "+stats[9],5);    
                 break;
                 case "6":
                 dead = true;
