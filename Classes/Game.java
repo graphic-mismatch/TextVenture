@@ -7,9 +7,12 @@ public class Game extends FightMechanics {
     static int[] stats = new int[10];
     // level, exp, maxhealth, charisma, atk, def, wisdom, intelligence, speed,
     // evasion
+    static boolean[][] effects = {{false,false,false,false,false},{false,false,false,false,false}};
+    static final String[] effectDesc = {"You lose some health due to your burn.","You feel nauseous. You lose some health to poison.","You lose some health to your injuries.","Some of your health withers away.","You feel ill. You lose some health."};
+    //brn,psn,bld,wither,ill
     static String inventory = "";
     final static String[][] itemDictionary = {
-            { "Apple(u)","Banana(u)","MRE(2u)","Axe(un)","Shield(un)","Armor(un)","Amulet(un)","Potion(u)","Book(u)","Painkillers(3u)","First-Aid Kit(3u)","Ring(un)","Lucky-coin(u)","Lockpicks(7u)","Key(u)","Helmet(un)","Skateboard(un)","Folding Bicycle(un)","Care-Package(u)","Cake(4u)","Bed(un)","Milk(u)" },{ "Recovers 10hp.","Recovers 5hp.","Recovers 30hp. Can be used twice.","Shield. Effect depends on item level and type.", "Armor. Effect depends on item level and type.","Magical Amulet. Effect depends on item level and type. Can either curse or bless you.","Random effect.","Heightens both Intelligence and Wisdom.", "Recovers 70hp. Can be used thrice.","Recovers all hp, regardless of current hp. Can be used thrice. Can be sold for insane amounts of money.","Magical Ring. Effect depends on item level and type. Can either curse or bless you.","Gives you a random amount of exp. A maximum of 100,000 exp points can be gained.","Universal Keys. Can be used on any door. Small chance of encounter. Can be used 7 times.","Can be used to open a door.", "Armor. Effect depends on item level and type.","Increases speed greatly. (Equipable)","Increases speed greatly. (Equipable)","Gives a random healing item, some coins, and some exp. May give a lucky coin.","Heals 30hp. Can be used four times.","Increases speed and evasion temporarily. Has a cool-down of 100 walk-cycles. Effects last for 25 turns.","Removes all temporary negative stat changes." },{"Apple(u)","Bananna(u)","MRE(2u)","Axe(un)","Sword(un)","Shield(un)","Armor(un)","Amulet(un)","Potion(u)","Book(u)","Painkillers(3u)","First-Aid Kit(3u)","Katana(un)","Ring(un)","Lucky-coin(u)","Lockpicks(7u)","Key(u)","Helmet(un)","Dagger(un)","Skateboard(un)","Folding Bicycle(un)","Pen(un)","Care-Package(u)","Cake(4u)","Bed(un)","Milk(u)"} };
+            { "Apple","Banana","MRE","Axe(un)","Shield(un)","Armor(un)","Amulet(un)","Potion","Book","Painkillers","First-Aid Kit","Ring(un)","Lucky-coin","Lockpicks","Key","Helmet(un)","Skateboard(un)","Folding Bicycle(un)","Care-Package","Cake","Bed(un)","Milk" },{ "Recovers 10hp.","Recovers 5hp.","Recovers 30hp.","Shield. Effect depends on item level and type.", "Armor. Effect depends on item level and type.","Magical Amulet. Effect depends on item level and type. Can either curse or bless you.","Random effect.","Heightens both Intelligence and Wisdom.", "Recovers 70hp.","Recovers all hp, regardless of current hp. Can be sold for insane amounts of money.","Magical Ring. Effect depends on item level and type. Can either curse or bless you.","Gives you a random amount of exp. A maximum of 100,000 exp points can be gained.","Universal Keys. Can be used on any door. Small chance of encounter.","Can be used to open a door.", "Armor. Effect depends on item level and type.","Increases speed greatly. (Equipable)","Increases speed greatly. (Equipable)","Gives a random healing item, some coins, and some exp. May give a lucky coin.","Heals 30hp. Can be used four times.","Increases speed and evasion temporarily. Has a cool-down of 100 walk-cycles. Effects last for 25 turns.","Removes all temporary negative stat changes." },{"h+(10.10)","h+(5.5)","h+(30.30)","-","d+(15.15)","d+(20.20)|spe-(5.5)|eva-(7.7)","-","-","-","h+(70.70)","h+a","-","exp+(100.100000)","Lockpicks(7u)","Key(u)","Helmet(un)","Dagger(un)","Skateboard(un)","Folding Bicycle(un)","Pen(un)","Care-Package(u)","Cake(4u)","Bed(un)","Milk(u)"}};
 
     static String equipped = "";
     static boolean dead = false;
@@ -63,6 +66,11 @@ public class Game extends FightMechanics {
 
     public static void main() throws IOException {
         while (true) {
+            for (int i = 0; i<effects[0].length;i++)
+            {
+            health -= (!effects[0][i])?0:(effects[1][i])?health/5.7:health/3;
+            System.out.print((!effects[0][i])?"":effectDesc[i]+"\n");
+            }
             if(stats[1]>= stats[0]*7.5)
             {
               slowType("Goddamn, do you have no life? Anyways, you leveled up to → lv."+(stats[0]+1)+"!\n\nTip: Level ups are still the best way to gain stats(because the developer was too lazy to add another way)!\n\n\n",10);
@@ -79,13 +87,18 @@ public class Game extends FightMechanics {
               stats[9] += (int)Math.rint(Math.ceil(rand.nextInt(7)+((Math.random()+1)*stats[0]))); 
               health = stats[2];
             }
+            health = (health>stats[2])?stats[2]:Double.parseDouble((health+"").substring(0, (stats[2]+"").length()+2));
             String opt = "";
+            dead = health <= 0.0;
+            if(!dead)
+            {
             System.out.println("Stats: ");
             System.out.println("Health: " + health + "/" + stats[2]);
             System.out.println("Menu: \n1. Walk\n2. Inventory \n3. Options \n4. Credits\n5. Stats \n6. Die");
             System.out.println("IMPORTANT: Please only enter the option number or else your game would likely crash.");
-            choice = get.next();
-            switch (choice) {
+            choice = get.nextLine().charAt(0)+"";
+            switch (choice) 
+            {
                 case "":
                 System.out.println("Seriously?");
                 break;
@@ -101,10 +114,23 @@ public class Game extends FightMechanics {
                 opt = get.next();
                 switch (opt) {
                     case "1":
-                    System.out.print("What item do you wish to use?");
+                    System.out.println("What item do you wish to use?");
+                    arrayDisplay(true, inventoryToArray(inventory));
                     opt = get.nextLine();
+                    break;
+                    case "2":
+                    break;
+                    case "3":
+                    break;
+                    case "4":
+                    System.out.println("INVENTORY:");
+                    arrayDisplay(false, inventoryToArray(inventory));
+                    opt = get.nextLine();
+                    break;
+                    case "5":
+                    break;
+  
                 }
-                arrayDisplay(true, inventoryToArray(inventory));
                 break;
                 case "3":
                 System.out.println("Options are currently not available");
@@ -120,13 +146,13 @@ public class Game extends FightMechanics {
                 default:
                 System.out.println("ig it would be better if u followed the rules");
             }
+            }
             if (dead == true) {
                 Game.slowType(user +" died.",20);
                 break;
             }
             choice = "";
             System.out.println("Press Enter to Continue:");
-            get.nextLine();
             get.nextLine();
             cls();
         }
@@ -156,14 +182,14 @@ public class Game extends FightMechanics {
             return ar;
         }
         else {
-            String[] ar = { "" };
+            String[] ar = {""};
             return ar;
         }
     }
 
     public static String arrayToInventory(String[] s) {
         String inv = "";
-        for (int i = 0; i > s.length - 1; i++) {
+        for (int i = 0; i < s.length; i++) {
             if (s[i] != "") {
                 inv = inv + s[i] + "|";
             }
@@ -171,14 +197,21 @@ public class Game extends FightMechanics {
         return inv;
     }
 
-    public static String[] sorting(String y[]) {
-        for (int count = 0; count < y.length - 1; count++) {
+    public static String[] sorting(String y[])
+    {
+        for(int count=0; count < y.length-1;count++)
+        {
             String temp = "";
-            for (int i = y.length - 1; i > count; i--) {
-                if ((y[count].toLowerCase()).compareTo(y[i].toLowerCase()) > 1) {
+            for(int i = y.length-1; i > count; i-- )
+            {
+                if((y[count].toLowerCase()).compareTo(y[i].toLowerCase()) > 0)
+                {
                     temp = y[i];
+
                     y[i] = y[count];
+
                     y[count] = temp;
+
                 }
             }
         }
@@ -187,11 +220,12 @@ public class Game extends FightMechanics {
 
     public static void arrayDisplay(boolean numbered, String[] ar) {
         if (numbered) {
-            for (int i = 0; i <= ar.length - 1; i++) {
+            for (int i = 0; i < ar.length - 1; i++) {
                 System.out.println((i + 1) + ". " + ar[i]);
             }
-        } else {
-            for (int i = 0; i <= ar.length - 1; i++) {
+        } 
+        else {
+            for (int i = 0; i < ar.length - 1; i++) {
                 System.out.println("-->" + ar[i]);
             }
         }
@@ -206,7 +240,24 @@ public class Game extends FightMechanics {
                   dead = true;
                 }
             }
+            break;
+            case 2:
+            if(rand.nextInt(100) >= pro) {
+               String loot[] = spawnItem();
+               slowType("Do you want to pick any of these up? (item num1,item num 2...)",10);
+               arrayDisplay(true, loot);
+               String p = ","+get.nextLine();
+               String[] pickup = p.split(","); 
 
+
+               for(int i = 1; i<pickup.length; i++ )
+               {
+                 inventory += loot[Integer.parseInt(pickup[i])-1]+"|";
+               }
+               inventory = arrayToInventory(sorting(inventoryToArray(inventory)));
+               System.out.println(inventory);
+            }
+            break;
         }
     }
 
@@ -219,6 +270,15 @@ public class Game extends FightMechanics {
         String[] monchar = { "Angry####", "Confident", "Annoying#", "Calm#####", "Enerjetic", "Friendly#", "Edgy#####" };
         String monster = monchar[rand.nextInt(6)] + montype[rand.nextInt(11)] + monlv;
         return monster;
+    }
+
+    public static String[] spawnItem() {
+        String[] loot = new String[rand.nextInt(6)+1];
+        for(int i =0;i<loot.length;i++)
+        {
+        loot[i] = itemDictionary[0][rand.nextInt(21)];
+        }
+        return loot;
     }
 
     public static void cls() {
@@ -286,5 +346,19 @@ public class Game extends FightMechanics {
             }
         }
         return -1;
+    }
+    public static int seqSearch(String[] x, String target) {
+      for (int i = 0; i<x.length; i++) 
+      {
+        if(x[i]==target)
+        {
+          return i;
+        }
+      }
+      return -1;
+    }
+    public static void effector(String effectString)
+    {
+      
     }
 }
